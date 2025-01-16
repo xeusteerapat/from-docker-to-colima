@@ -1,0 +1,3 @@
+- Explain more about container runtime & life cycle
+- Explain more details about colima configuration
+- docker credentials errors
