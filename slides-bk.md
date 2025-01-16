@@ -19,51 +19,22 @@ Lightweight Docker Alternative for macOS
 - Built on top of containerd
 - Provides higher-level features: build, push, pull, etc.
 
-
 ---
 
-# Understanding Container Technology Layers
+# Container Technology Stack
 
-## Docker Desktop Architecture
 ```mermaid
 graph LR
-    A[Docker CLI] --> B[Docker Engine/dockerd]
-    B --> C[containerd]
-    C --> D[runc]
-    D --> E[Linux Kernel in VM]
+    A[Your Application] --> B[Docker CLI/API]
+    B --> C[Docker Engine]
+    C --> D[containerd]
+    D --> E[runc]
+    E --> F[Linux Kernel]
 ```
 
-## Colima Architecture
-```mermaid
-graph LR
-    A[Docker CLI] --> B[Colima VM]
-    B --> C[containerd]
-    C --> D[runc]
-    D --> E[Linux Kernel in VM]
-```
-
----
-layout: two-cols
----
-
-# Component Roles
-1. **Docker Engine/dockerd**:
-   - Complete container platform
-   - Image building
-   - Volume & network management
-   - API endpoints
-
-2. **containerd** (High-level Runtime):
-   - Container lifecycle
-   - Image management
-   - Storage operations
-
-::right::
-
-3. **runc** (Low-level Runtime):
-   - Creates actual containers
-   - Interfaces with kernel
-   - Manages system resources
+- **runc**: Creates and runs containers
+- **containerd**: Manages container lifecycle
+- **Docker Engine**: Orchestrates everything
 
 ---
 
@@ -76,10 +47,10 @@ Docker Desktop:
 - Commercial licensing
 
 Colima:
-- Open source
 - CLI-based
 - Lightweight
 - Uses same container runtime
+- Open source
 
 ---
 
@@ -100,8 +71,7 @@ graph LR
     B --> C[containerd]
     C --> D[Container 1]
     C --> E[Container 2]
-    C --> F[Container 3]
-    B --> G[Docker Engine]
+    B --> F[Docker Engine]
 ```
 
 - Uses Lima to create a Linux VM
@@ -150,9 +120,6 @@ colima start --cpu 4 --memory 8
 
 # With specific runtime
 colima start --runtime containerd
-
-# Advance configuration by editing
-~/.colima/default/colima.yml
 ```
 
 ---
@@ -247,7 +214,6 @@ colima ssh
 colima delete
 ```
 
-
 ---
 
 # Migration Steps
@@ -301,6 +267,7 @@ Solutions:
 # Thank You!
 Questions?
 
+Contact: [Your Contact Info]
 Resources:
 - Colima GitHub: https://github.com/abiosoft/colima
 - Docker Docs: https://docs.docker.com
