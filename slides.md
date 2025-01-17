@@ -119,6 +119,9 @@ graph LR
 ```bash
 # Install required packages
 brew install colima docker docker-compose
+
+# after install completed
+brew services start colima
 ```
 
 Key Components:
@@ -204,7 +207,7 @@ Solution
 Error: https://registry-1.docker.io/v2/: x509: certificate signed by unknown authority
 ```
 Solution
-- Edit `~/.colima/colima.yml` with code editor by adding the following:
+- Edit `~/.colima/default/colima.yml` with code editor by adding the following:
 
 ```yaml
 docker:
