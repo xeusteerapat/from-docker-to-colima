@@ -2,7 +2,8 @@
 theme: the-unnamed
 ---
 
-# Migration from Docker Desktop to Colima
+# From Docker Desktop 
+# to Colima
 Lightweight Docker Alternative for macOS
 
 ---
@@ -12,9 +13,9 @@ Lightweight Docker Alternative for macOS
 ## Container Runtime
 - Low-level software that runs and manages containers
 - Examples: containerd, CRI-O, runc
-- Handles container lifecycle, storage, and networking
+- Handles container lifecycle (create, start, stop etc.), storage, and networking
 
-## Docker Engine
+## Docker Engine (Daemon)
 - Complete container platform
 - Built on top of containerd
 - Provides higher-level features: build, push, pull, etc.
@@ -32,6 +33,10 @@ graph LR
     C --> D[runc]
     D --> E[Linux Kernel in VM]
 ```
+
+<br>
+<br>
+<br>
 
 ## Colima Architecture
 ```mermaid
@@ -101,7 +106,7 @@ graph LR
     C --> D[Container 1]
     C --> E[Container 2]
     C --> F[Container 3]
-    B --> G[Docker Engine]
+    B --> G[Docker Runtime]
 ```
 
 - Uses Lima to create a Linux VM
@@ -174,6 +179,43 @@ Common registry issues:
 
 ---
 
+# Handling TLS Issues (cont.)
+
+```bash
+# Common issues
+error getting credentials - err: exec: "docker-credential-desktop": executable file not found in $PATH, out: ``
+```
+Solution
+- Open `~/.docker/config.json` with code editor
+
+```json
+{
+	"auths": {},
+	"currentContext": "colima"
+}
+```
+
+---
+
+# Handling TLS Issues (cont.)
+
+```bash
+# Common issues
+Error: https://registry-1.docker.io/v2/: x509: certificate signed by unknown authority
+```
+Solution
+- Edit `~/.colima/colima.yml` with code editor by adding the following:
+
+```yaml
+docker:
+  insecure-registries:
+    - https://registry-1.docker.io
+  registry-mirrors:
+    - https://registry-1.docker.io
+```
+
+---
+
 # Docker Compose Usage
 
 ```bash
@@ -198,20 +240,17 @@ Compose supports same features as Docker Desktop:
 With Docker Compose v2:
 
 ```yaml
-services:
-  app:
-    build: .
-    develop:
-      watch:
-        - path: ./src
-          target: /app/src
-          action: sync
+develop:
+  watch:
+    - action: sync
+      path: ./
+      target: /opt/app-root
+      ignore:
+        - node_modules/
+    - action: rebuild
+      path: package.json
 ```
 
-```bash
-# Run with watch mode
-docker compose watch
-```
 
 ---
 
@@ -302,6 +341,8 @@ Solutions:
 Questions?
 
 Resources:
+
+- Containerd vs. Docker: https://www.docker.com/blog/containerd-vs-docker
 - Colima GitHub: https://github.com/abiosoft/colima
 - Docker Docs: https://docs.docker.com
 - Lima Project: https://github.com/lima-vm/lima
